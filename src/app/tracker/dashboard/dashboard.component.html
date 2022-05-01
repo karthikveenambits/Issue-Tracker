@@ -1,0 +1,117 @@
+<app-navbar></app-navbar>
+<div class="searchandbuttons">
+  <div class="dashboard"></div>
+  <div class="input-group mb-3 w-75 mt-5 pl-1 pr-1 divchild">
+    <input
+      type="text"
+      class="form-control search-term"
+      placeholder="Search with any trackers"
+      aria-label="Recipient's username"
+      aria-describedby="basic-addon2"
+      [(ngModel)]="term"
+    />
+  </div>
+
+  <div
+    class="btn-group mt-2 mb-0 btngroup divchild"
+    role="group"
+    aria-label="Basic example"
+  >
+    <button
+      type="button"
+      class="btn btn-secondary pl-3"
+      [ngClass]="{
+        'btn-color': isReportedClicked,
+        'btn-remove': !isReportedClicked
+      }"
+      data-toggle="tooltip"
+      data-html="true"
+      title="Click to sort with issues Assigned to you"
+      (click)="bugdReportedByUser()"
+    >
+      Reported by me
+    </button>
+    <button
+      type="button"
+      class="btn btn-secondary pl-3"
+      [ngClass]="{
+        'btn-color': isAssigneeClicked,
+        'btn-remove': !isAssigneeClicked
+      }"
+      (click)="getBugsByAssignee()"
+    >
+      Assigned to me
+    </button>
+    <button
+      type="button"
+      class="btn btn-secondary pl-3"
+      [ngClass]="{
+        'btn-color': isWatchedClicked,
+        'btn-remove': !isWatchedClicked
+      }"
+      (click)="bugsByUserId()"
+    >
+      Watched issues
+    </button>
+    <button
+      type="button"
+      class="btn btn-secondary pl-3"
+      [ngClass]="{
+        'btn-color': isCreateClicked,
+        'btn-remove': !isCreateClicked
+      }"
+      [routerLink]="['/createTracker']"
+    >
+      Create
+    </button>
+  </div>
+</div>
+
+<div class="table-responsive table table-striped table">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Status</th>
+        <th scope="col">Priority</th>
+        <th scope="col" *ngIf="isAssignee">Assignee</th>
+        <th scope="col" *ngIf="!isAssignee " >Reporter</th>
+        <th scope="col" *ngIf="!isWatchedIssues">Created Date</th>
+      </tr>
+    </thead>
+
+    <tbody>
+     
+      <tr
+        *ngFor="
+          let bug of trackers
+            | filter: term
+            | paginate: { itemsPerPage: 10, currentPage: p }
+        "
+      >
+        <td scope="row">
+          <a
+            *ngIf="!isWatchedIssues"
+            class="link-view"
+            (click)="sendId(bug._id)"
+            ><u> {{ bug.title }}</u></a
+          >
+          <u *ngIf="isWatchedIssues" class="title-watched">{{ bug.title }}</u>
+        </td>
+        <td>
+          {{ bug.description }}
+        </td>
+        <td>{{ bug.status }}</td>
+        <td>{{ bug.priority }}</td>
+        <td  *ngIf="isAssignee">{{ bug.assignee }}</td>
+        <td *ngIf="!isAssignee" >{{ bug.reporter }}</td>
+        <td *ngIf="!isWatchedIssues">{{ bug.createdDate }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div  class="noBugs"    *ngIf=isNodata>No Bugs Available for you at this moment! Click on create tracker to create one</div>
+</div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+<app-footer></app-footer>
+<ngx-spinner></ngx-spinner>

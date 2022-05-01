@@ -1,0 +1,51 @@
+.btn-color {
+  background-color: #343a40 !important;
+  color: white;
+}
+/* .btn-color:hover {
+  background-color: #343a40 !important;
+  color: white;
+} */
+.searchandbuttons{
+  margin-top: 15vh;
+}
+.link-view:hover{
+color: rgb(2, 2, 112);
+}
+.btn-default {
+  color: white;
+  background-color: blue;
+
+}
+
+.btn-change {
+  color: Red;
+  background-color: white;
+}
+.btn-remove{
+  background-color: #b3d1f0 !important;
+  color: rgb(0, 0, 0);
+}
+.title-watched{
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+}
+.remove-watchlist{
+  margin-top: 4vh;
+  color: rgb(212, 2, 2);
+}
+.noBugs{
+  padding-top: 2vw;
+  width: 100%;
+}
+@media(min-width:0px) and (max-width:760px) {
+
+  .noBugs{
+    padding-top: 2vw;
+    padding-bottom: 2vw;
+    width: 100%;
+  }
+  .search-term{
+    margin-top: 10vh;
+  }
+}
